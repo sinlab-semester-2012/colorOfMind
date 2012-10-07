@@ -52,4 +52,4 @@ int    get_counter(emokit_device*);
 void   set_hamming_window(double *,int);
 
 //my function
-void processButterworthAlphaWaves(emo_dsp_state* s);
+void processButterworthAlphaWaves(emo_dsp_state*);

@@ -189,7 +189,6 @@ EMOKIT_DECLSPEC int emokit_get_next_frame(emokit_device* s){
        if(f_byte<14)
        {
            s->contact_quality[f_byte] = get_level(s->raw_unenc_frame,LEV_MASK);
-	   printf("%d,%d-",s->contact_quality[f_byte], get_level(s->raw_unenc_frame, LEV_MASK));
        }
        s->current_counter = f_byte;
 

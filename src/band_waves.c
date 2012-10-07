@@ -1,35 +1,50 @@
+//TODO : average 4 last epoc
+
+#include "../lib/band_waves.h"
+
+struct waves* make_new_waves()
+{	
+    struct waves* w = (struct waves*)malloc(sizeof(struct waves));
+}
+
+void compute_band_waves(struct waves* w, struct emokit_frame* current_frame){
+	process_new_frame(w, current_frame);
+	butterworth_alpha_waves(w);
+	average_of_squares(w);
+}
+
 //BUTTERWORTH FILTER for 8-12HZ with order 4
-void processButterworthAlphaWaves(struct waves* w){
+void butterworth_alpha_waves(struct waves* w){
 	int i,j;
 	for(i=0; i<14; i++){
 		for(j=1;j<9;j++){
-			w->butterworth_channels[i][j][0] = w->butterworth_channels[i][j][0];
+			w->filtered_channels[i][j] = w->filtered_channels[i][j];
 		}
 	}
 	for(i=0; i<14; i++){
-		w->butterworth_channels[0][i][0] = 
-			(1 * (w->channels)[i][8][0])
-		     + (  0. * (w->channels)[i][7][0])
-		     + ( -4. * (w->channels)[i][6][0])
-		     + (  0. * (w->channels)[i][5][0])
-		     + (  6. * (w->channels)[i][4][0])
-		     + (  0. * (w->channels)[i][3][0])
-		     + ( -4. * (w->channels)[i][2][0])
-		     + (  0. * (w->channels)[i][1][0])
-		     + (  1. * (w->channels)[i][0][0])
+		w->filtered_channels[0][i] = 
+			(1 * (w->channels)[i][8])
+		     + (  0. * (w->channels)[i][7])
+		     + ( -4. * (w->channels)[i][6])
+		     + (  0. * (w->channels)[i][5])
+		     + (  6. * (w->channels)[i][4])
+		     + (  0. * (w->channels)[i][3])
+		     + ( -4. * (w->channels)[i][2])
+		     + (  0. * (w->channels)[i][1])
+		     + (  1. * (w->channels)[i][0])
 
-		     + ( -0.5980652616 * w->butterworth_channels[i][8][0])
-		     + (  4.5117145602 * w->butterworth_channels[i][7][0])
-		     + (-15.4796097211 * w->butterworth_channels[i][6][0])
-		     + ( 31.4237123835 * w->butterworth_channels[i][5][0])
-		     + (-41.2116361169 * w->butterworth_channels[i][4][0])
-		     + ( 35.7361014123 * w->butterworth_channels[i][3][0])
-		     + (-20.0194593593 * w->butterworth_channels[i][2][0])
-		     + (  6.6351660481 * w->butterworth_channels[i][1][0]);
+		     + ( -0.5980652616 * w->filtered_channels[i][8])
+		     + (  4.5117145602 * w->filtered_channels[i][7])
+		     + (-15.4796097211 * w->filtered_channels[i][6])
+		     + ( 31.4237123835 * w->filtered_channels[i][5])
+		     + (-41.2116361169 * w->filtered_channels[i][4])
+		     + ( 35.7361014123 * w->filtered_channels[i][3])
+		     + (-20.0194593593 * w->filtered_channels[i][2])
+		     + (  6.6351660481 * w->filtered_channels[i][1]);
 	}
 }
 
-void process_frame(struct waves* w, struct emokit_frame* current_frame)
+void process_new_frame(struct waves* w, struct emokit_frame* current_frame)
 {
     //Make an array to copy the values into and access sequentially
     int frame_vals[14];
@@ -76,19 +91,18 @@ void process_frame(struct waves* w, struct emokit_frame* current_frame)
 }
 
 //get the average of the squared signals
-void average_of_squares(waves* w){
+void average_of_squares(struct waves* w){
 	int i,j;
-	int 
 	for(i=0; i<14;i++){
 	    for(j=0; j<EPOCH_SIZE; j++){
-		w->epoch_values[i][0] += w_>filtered_channels[i][0]*w_>filtered_channels[i][0];
+		w->epoch_values[i][0] += w->filtered_channels[i][0]*w->filtered_channels[i][0];
 	    }
 	    w->epoch_values[i][0]=w->epoch_values[i][0]/((double)EPOCH_SIZE);
 	}
 }
 
 //crop high and low value according to MAX and MIN values
-void crop(waves* w){
+void crop(struct waves* w){
 	int i;
 	
 	for(i=0; i<14;i++){
@@ -102,7 +116,7 @@ void crop(waves* w){
 }
 
 //Center the signal
-void center(waves* w){
+void center(struct waves* w){
 	int i;
 	for(i=0; i<14;i++){
 	    w->epoch_values[i][0] -=CROP_CENTER;

@@ -1,15 +1,14 @@
 #include "emokit.h"
-//#include <math.h>
 #include <stdlib.h>
 
-
+#define EPOC_HLF 8192
 #define EPOCH_SIZE 128
 #define EPOCH_AVERAGE 4
 #define CROP_MAX -1
 #define CROP_MIN 1
 #define CROP_CENTER 0
 
-typedef struct
+typedef struct waves
 {   
     //Channel history
     double channels[14][EPOCH_SIZE];
@@ -22,6 +21,12 @@ typedef struct
     double coefficients_beta[2][8];
     double coefficients_low_beta[2][8];
     
-} waves;
+};
 
-
+struct waves* make_new_waves();
+void compute_band_waves(struct waves*, struct emokit_frame*);
+void butterworth_alpha_waves(struct waves*);
+void process_new_frame(struct waves*, struct emokit_frame*);
+void average_of_squares(struct waves*);
+void crop(struct waves*);
+void center(struct waves*);

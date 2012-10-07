@@ -9,8 +9,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include <gtk/gtk.h>
 
+#include "../lib/band_waves.h"
 #include "../lib/emokit.h"
 #include "../lib/emo_dsp.h"
 
@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 		printf("CANNOT CONNECT\n");
 		return 1;
 	}
+
+	struct waves* w;
+	w = make_new_waves();
 	while(1)
 	{
 		if(emokit_read_data(d) > 0)
@@ -37,11 +40,8 @@ int main(int argc, char **argv)
 
 			emokit_get_next_frame(d);
 			
-			int i = 0;
-			while(i<14){
-				//printf("%d:%d-",i, d->contact_quality[i]);	
-				i++;		
-			}
+			compute_band_waves(w,&d->current_frame);
+			printf("%f\n", w->epoch_values[0][0]);
 			//printf("\n");
 			//FFTW lib with emo_dsp.c			
 			//emo_dsp_state* eds;

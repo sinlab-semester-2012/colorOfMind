@@ -163,7 +163,8 @@ void processButterworthAlphaWaves(emo_dsp_state* s){
 		}
 	}
 	for(i=0; i<14; i++){
-		s->butterworth_channels[0][i][0] = (  1 * (s->channels)[i][8][0])
+		s->butterworth_channels[0][i][0] = 
+			(1 * (s->channels)[i][8][0])
 		     + (  0. * (s->channels)[i][7][0])
 		     + ( -4. * (s->channels)[i][6][0])
 		     + (  0. * (s->channels)[i][5][0])

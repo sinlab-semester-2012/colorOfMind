@@ -9,7 +9,7 @@ struct waves* make_new_waves()
 
 void compute_band_waves(struct waves* w, struct emokit_frame* current_frame){
 	process_new_frame(w, current_frame);
-	butterworth_beta_waves(w);
+	butterworth_alpha_waves(w);
 	average_of_squares(w);
 }
 

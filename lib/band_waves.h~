@@ -27,7 +27,7 @@ struct waves* make_new_waves();
 void compute_band_waves(struct waves*, struct emokit_frame*);
 void butterworth_beta_waves(struct waves*);
 void butterworth_alpha_waves(struct waves*);
-void butterworth_minbeta_waves(struct waves*);
+void butterworth_minbeta_waves(struct waves*)
 void process_new_frame(struct waves*, struct emokit_frame*);
 void average_of_squares(struct waves*);
 void crop(struct waves*);

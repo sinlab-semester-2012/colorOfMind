@@ -196,7 +196,7 @@ EMOKIT_DECLSPEC int emokit_get_next_frame(emokit_device* s){
     else //This is a battery byte
     {
         f_byte = f_byte-128;
-        s->battery = f_byte;
+        s->batery = f_byte;
         s->current_counter = 128;
     }
 }

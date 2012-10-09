@@ -13,7 +13,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include "../lib/emokit/emokit.h"
+#include "../lib/emokit.h"
 #include <stdio.h>
 #include <stdlib.h>
 

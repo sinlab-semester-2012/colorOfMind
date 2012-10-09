@@ -8,6 +8,10 @@
 #define CROP_MIN 1
 #define CROP_CENTER 0
 
+#define GAIN 1.374144519e+04
+
+
+
 typedef struct waves
 {   
     //Channel history
@@ -16,12 +20,13 @@ typedef struct waves
     double filtered_channels[14][EPOCH_SIZE];
     double epoch_values[14][EPOCH_AVERAGE];
     //double final_values[14]
-
-    double coefficients_alpha[2][8];
-    double coefficients_beta[2][8];
-    double coefficients_low_beta[2][8];
     
 };
+//double coefficients_alpha[2][8];
+//double coefficients_beta[2][8];
+//double coefficients_low_beta[2][8];
+
+//FUNCTIONS
 
 struct waves* make_new_waves();
 void compute_band_waves(struct waves*, struct emokit_frame*);

@@ -1,0 +1,1 @@
+/usr/bin/gcc      CMakeFiles/main.dir/main.c.o  -o ../../bin/main -rdynamic -L/usr/local/lib ../../lib/libemokit.a ../../lib/libband_waves.a /usr/local/lib/libmcrypt.so -lusb-1.0 -lfftw3 -Wl,-rpath,/usr/local/lib:/usr/local/lib 

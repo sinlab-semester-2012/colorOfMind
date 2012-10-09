@@ -11,8 +11,8 @@ ENDIF()
 target_link_libraries (emokit ${LIBS}) 
 
 INSTALL (TARGETS emokit
-  LIBRARY DESTINATION lib/emokit
-  ARCHIVE DESTINATION lib/emokit
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
   )
 
 INSTALL(FILES

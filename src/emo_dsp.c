@@ -2,7 +2,7 @@
  * This header defines the methods to access the processed emokit input
  *
  */
-#include "../../lib/emo_dsp.h"
+#include "../lib/emokit/emo_dsp.h"
 #include <math.h>
 
 #define max(a,b) (((a) > (b)) ? (a) : (b))
@@ -153,36 +153,6 @@ void process_frame(emo_dsp_state* s, struct emokit_frame* current_frame)
     //Keep butterworth filter updated
     processButterworthAlphaWaves(s);
 
-}
-//BUTTERWORTH FILTER for 8-12HZ with order 4
-void processButterworthAlphaWaves(emo_dsp_state* s){
-	int i,j;
-	for(i=0; i<14; i++){
-		for(j=1;j<9;j++){
-			s->butterworth_channels[i][j][0] = s->butterworth_channels[i][j][0];
-		}
-	}
-	for(i=0; i<14; i++){
-		s->butterworth_channels[0][i][0] = 
-			(1 * (s->channels)[i][8][0])
-		     + (  0. * (s->channels)[i][7][0])
-		     + ( -4. * (s->channels)[i][6][0])
-		     + (  0. * (s->channels)[i][5][0])
-		     + (  6. * (s->channels)[i][4][0])
-		     + (  0. * (s->channels)[i][3][0])
-		     + ( -4. * (s->channels)[i][2][0])
-		     + (  0. * (s->channels)[i][1][0])
-		     + (  1. * (s->channels)[i][0][0])
-
-		     + ( -0.5980652616 * s->butterworth_channels[i][8][0])
-		     + (  4.5117145602 * s->butterworth_channels[i][7][0])
-		     + (-15.4796097211 * s->butterworth_channels[i][6][0])
-		     + ( 31.4237123835 * s->butterworth_channels[i][5][0])
-		     + (-41.2116361169 * s->butterworth_channels[i][4][0])
-		     + ( 35.7361014123 * s->butterworth_channels[i][3][0])
-		     + (-20.0194593593 * s->butterworth_channels[i][2][0])
-		     + (  6.6351660481 * s->butterworth_channels[i][1][0]);
-	}
 }
 
 emo_dsp_state* make_new_dsp_state()

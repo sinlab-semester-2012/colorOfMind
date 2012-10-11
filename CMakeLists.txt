@@ -27,28 +27,11 @@ ENDIF(WIN32)
 SET(LIBS ${Mcrypt_LIBS} ${LIBUSB_1_LIBRARIES} ${FFTW_LIBRARIES} ${OSC_LIBS})
 
 MESSAGE(STATUS ${LIBS})
-INCLUDE_DIRECTORIES(${Mcrypt_INCLUDE_DIR} ${libepoc_SOURCE_DIR}/include ${FFTW_INCLUDE_DIR} ${OSC_SOURCE_DIR})
+INCLUDE_DIRECTORIES(${Mcrypt_INCLUDE_DIR} ${FFTW_INCLUDE_DIR} ${OSC_SOURCE_DIR})
 LINK_DIRECTORIES(/usr/local/lib)
 
 ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(lib/oscpack)
+ADD_SUBDIRECTORY(lib/oscpack/)
 ADD_SUBDIRECTORY(examples/main)
 ADD_SUBDIRECTORY(examples/emokit_osc)
 
-
-
-##########################################
-##       PKGCONFIG file                ###
-##########################################
-
-IF   (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/emokit.pc.in")
-  MESSAGE(STATUS "configured ${CMAKE_CURRENT_SOURCE_DIR}/emokit.pc.in --> ${CMAKE_CURRENT_BINARY_DIR}/emokit.pc")
-  CONFIGURE_FILE(${CMAKE_CURRENT_SOURCE_DIR}/emokit.pc.in 
-    ${CMAKE_CURRENT_BINARY_DIR}/emokit.pc
-    @ONLY )
-
-	INSTALL(FILES
-		${CMAKE_CURRENT_BINARY_DIR}/emokit.pc
-		DESTINATION lib/pkgconfig
-		)
-ENDIF(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/emokit.pc.in")

@@ -33,8 +33,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 
-	struct waves* w;
-	w = make_new_waves();
+	waves* w;
+	w = new_waves();
 	while(1)
 	{
 		if(emokit_read_data(d) > 0)
@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 
 			emokit_get_next_frame(d);
 			
-			compute_band_waves(w,&d->current_frame);
+			compute_band_waves(w,&d->current_frame, 1);
 			double average;
 			int i;
 			for(i=0; i<NB_CHANNELS; i++){

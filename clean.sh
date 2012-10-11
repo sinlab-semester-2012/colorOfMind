@@ -4,15 +4,16 @@ if [ ${PWD##*/} = "Emokit" ] ; then echo "Cleaning up";
 else echo "Wrong directory. exiting"; exit 1;
 fi
 
+#remove temp files
+rm -r *~
+
 # clean main directory
 rm -r CMakeFiles/
-rm -r *~
 rm CMakeCache.txt cmake_install.cmake install_manifest.txt Makefile
 
 # clean lib directory
 cd lib/
-rm libemokit.a libOSC.so libband_waves.a
-rm -r *~
+rm libemokit.a libOSC.so libband_waves.a libband_waves.so
 cd ../
 
 
@@ -20,21 +21,24 @@ cd ../
 cd examples/emokit_osc/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
-rm -r *~
+cd ../../
+
+# clean examples/main directory
+cd examples/main/
+rm -r CMakeFiles/
+rm cmake_install.cmake Makefile
 cd ../../
 
 # clean src directory
 cd src/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
-rm -r *~
 cd ../
 
 # clean include/oscpack directory
 cd lib/oscpack/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
-rm -r *~
 cd ../../
 
 # clean bin directory

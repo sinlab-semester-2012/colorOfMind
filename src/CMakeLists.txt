@@ -1,41 +1,10 @@
-##########################################
-##              libepoc                ###
-##########################################
 
-# Create a library called "libepoc"
 IF(WIN32)
-  ADD_LIBRARY (emokit STATIC emokit.c emokit_win32.c) 
+  ADD_LIBRARY (emokit STATIC emokit.c emokit_win32.c)
 ELSE()
-  ADD_LIBRARY (emokit STATIC emokit.c emokit_libusb.c) 
+  ADD_LIBRARY (emokit STATIC emokit.c emokit_libusb.c)
 ENDIF()
-target_link_libraries (emokit ${LIBS}) 
 
-INSTALL (TARGETS emokit
-  LIBRARY DESTINATION lib/emokit
-  ARCHIVE DESTINATION lib/emokit
-  )
-
-INSTALL(FILES
-  ${LIBEMOKIT_HEADERS}
-  DESTINATION lib/emokit/libemokit
-  )
-
-##########################################
-##              libbw               ###
-##########################################
-
-# Create a library called "libbw"
-ADD_LIBRARY (band_waves STATIC band_waves.c) 
-target_link_libraries (band_waves ${LIBS}) 
-
-INSTALL (TARGETS band_waves
-  LIBRARY DESTINATION lib/emokit
-  ARCHIVE DESTINATION lib/emokit
-  )
-
-INSTALL(FILES
-  ${LIBBAND_WAVES_HEADERS}
-  DESTINATION lib/emokit/band_waves
-  )
+ADD_LIBRARY (band_waves band_waves.c) 
 
 

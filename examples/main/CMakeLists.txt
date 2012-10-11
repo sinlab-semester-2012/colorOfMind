@@ -2,17 +2,10 @@
 #                main                  #
 ##################################################
 
+# Make sure the compiler can find include files from our library.
+include_directories (${band_waves_SOURCE_DIR}/band_waves)
+# Make sure the linker can find the library once it is built.
+link_directories (${band_waves_BINARY_DIR}/band_waves)
 add_executable (main main.c)
-ADD_DEPENDENCIES(main emokit)
-ADD_DEPENDENCIES(main band_waves)
+# Link the executable to the librairies. 
 target_link_libraries (main emokit band_waves ${LIBS})
-
-SET_TARGET_PROPERTIES(main PROPERTIES
-	INSTALL_RPATH_USE_LINK_PATH TRUE
-	INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib
-	BUILD_WITH_INSTALL_RPATH TRUE )
-
-INSTALL (TARGETS main
-	RUNTIME DESTINATION bin
-)
-

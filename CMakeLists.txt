@@ -33,5 +33,7 @@ LINK_DIRECTORIES(/usr/local/lib)
 ADD_SUBDIRECTORY(src)
 ADD_SUBDIRECTORY(lib/oscpack/)
 ADD_SUBDIRECTORY(examples/main)
+ADD_SUBDIRECTORY(examples/saveData)
+ADD_SUBDIRECTORY(examples/readData)
+#c++
 ADD_SUBDIRECTORY(examples/emokit_osc)
-

@@ -36,6 +36,8 @@ const unsigned char O2_MASK[14] = {140, 141, 142, 143, 128, 129, 130, 131, 132, 
 const unsigned char O1_MASK[14] = {102, 103, 88, 89, 90, 91, 92, 93, 94, 95, 80, 81, 82, 83};
 const unsigned char FC5_MASK[14] = {28, 29, 30, 31, 16, 17, 18, 19, 20, 21, 22, 23, 8, 9};
 const unsigned char LEV_MASK[14] = {107,108,109,110,111,112,113,114,115,116,117,118,119,120};
+const unsigned char LEV_MASK2[14] = {122,123,124,125,126,127,112,113,114,115,116,117,98,99};
+const unsigned char LEV_MASK1[14] = {118,119,107,108,109,110,111,112,113,114,98,99,100,101};
 
 EMOKIT_DECLSPEC int emokit_get_crypto_key(emokit_device* s, const unsigned char* feature_report) {
 
@@ -118,10 +120,10 @@ void emokit_deinit(emokit_device* s) {
 	mcrypt_module_close(s->td);
 }
 
-int get_level(unsigned char frame[32], const unsigned char bits[14]) {
+unsigned int get_level(unsigned char frame[32], const unsigned char bits[14]) {
 	char i;
 	char b,o;
-	int level = 0;
+	unsigned int level = 0;
     
 	for (i = 13; i >= 0; --i) {
 		level <<= 1;
@@ -160,7 +162,12 @@ EMOKIT_DECLSPEC int emokit_get_next_frame(emokit_device* s){
 	memset(s->raw_unenc_frame, 0, 32);
 	
 	emokit_get_next_raw(s);
+	
+	emokit_compute_next_frame(s);
+}
 
+EMOKIT_DECLSPEC int emokit_compute_next_frame(emokit_device* s){
+	
 	s->current_frame.F3 = get_level(s->raw_unenc_frame, F3_MASK);
 	s->current_frame.FC6 = get_level(s->raw_unenc_frame, FC6_MASK);
 	s->current_frame.P7 = get_level(s->raw_unenc_frame, P7_MASK);
@@ -176,8 +183,9 @@ EMOKIT_DECLSPEC int emokit_get_next_frame(emokit_device* s){
 	s->current_frame.O1 = get_level(s->raw_unenc_frame, O1_MASK);
 	s->current_frame.FC5 = get_level(s->raw_unenc_frame, FC5_MASK);
     
-	s->current_frame.gyroX = s->raw_unenc_frame[29] - 102;
-	s->current_frame.gyroY = s->raw_unenc_frame[30] - 104;
+    //calibration faite
+	s->current_frame.gyroX = s->raw_unenc_frame[29] - 104;
+	s->current_frame.gyroY = s->raw_unenc_frame[30] - 105;
     
     //Check if the current frame is a battery frame
     unsigned char f_byte        = s->raw_unenc_frame[0];

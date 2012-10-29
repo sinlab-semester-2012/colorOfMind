@@ -1,0 +1,22 @@
+original signal X: x0,x1,x2,...
+
+I :integrator(X) => EOG, incorrect value or not
+	Integrator on time interval ? 
+		t1 for eye blink (100-400 ms -> 13-52 packets)
+		t2 for mouth movements
+		
+BW(X, I?): bandpass filter for signal X and transform into Y : y0,y1,y2,...
+	BW1 : alpha
+	BW2 : beta
+	BW3 : min Beta
+		Improve by increasing importance of captors at the front of the brain 
+
+Compute ratio:
+	Alpha/beta for calm/stressed
+	Left/right for valence
+	
+	Ratio: remove the need for calibrating signals
+	
+Question is a butterworth filter sufficient to get accurate results ?
+Do we need other filtering before using signals ?
+

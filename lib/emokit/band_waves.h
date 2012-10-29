@@ -5,13 +5,15 @@
 #define EPOC_HLF 8192
 #define EPOCH_SIZE 128
 #define EPOCH_AVERAGE 4
+
+//needs calibration
 #define CROP_MAX -1
 #define CROP_MIN 1
 #define CROP_CENTER 0
 
-#define ALPHA 1;
-#define MINBETA 2;
-#define BETA 3;
+#define ALPHA 1
+#define MINBETA 2
+#define BETA 3
 
 #define GAIN 1.374144519e+04
 
@@ -25,6 +27,9 @@ typedef struct
     double filtered_channels[14][EPOCH_SIZE];
 	//value after epoching
     double epoch_values[14][EPOCH_AVERAGE];
+    double averaged_epoch[14];
+    
+    int is_channel_on[14];
     
 } waves;
 
@@ -49,3 +54,8 @@ void process_new_frame(waves*, struct emokit_frame*);
 void average_of_squares(waves*);
 void crop(waves*);
 void center(waves*);
+void initializeTables(waves*);
+void initialize_channels(waves*);
+void auto_setup_channels(waves*, emokit_device*);
+void manual_setup_channel(waves*,int table[NB_CHANNELS]);
+void deleteWaves(waves*);

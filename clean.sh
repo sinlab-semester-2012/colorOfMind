@@ -13,9 +13,8 @@ rm CMakeCache.txt cmake_install.cmake install_manifest.txt Makefile
 
 # clean lib directory
 cd lib/
-rm libemokit.a libOSC.so libband_waves.a libband_waves.so
+rm libemokit.a libOSC.so libband_waves.a libband_waves.so libdata_headset.a libdata_headset.so
 cd ../
-
 
 # clean examples/emokit_osc directory
 cd examples/emokit_osc/
@@ -25,6 +24,18 @@ cd ../../
 
 # clean examples/main directory
 cd examples/main/
+rm -r CMakeFiles/
+rm cmake_install.cmake Makefile
+cd ../../
+
+# clean examples/saveData directory
+cd examples/saveData/
+rm -r CMakeFiles/
+rm cmake_install.cmake Makefile
+cd ../../
+
+# clean examples/readData directory
+cd examples/readData/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../

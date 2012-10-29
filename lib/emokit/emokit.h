@@ -21,6 +21,8 @@
 #define E_EMOKIT_NOT_INITED -2
 #define E_EMOKIT_NOT_OPENED -3
 
+#define NB_CHANNELS 14
+
 #include <stdint.h>
 #if !defined(WIN32)
 #define EMOKIT_DECLSPEC
@@ -77,10 +79,9 @@ typedef struct {
 	struct emokit_frame current_frame; // Last information received from headset
 	unsigned char raw_frame[32]; // Raw encrypted data received from headset
 	unsigned char raw_unenc_frame[32]; // Raw unencrypted data received from headset
-   	unsigned char contact_quality[14] ;         // Contact quality structure updated at every frame read
-    	unsigned char battery;
-    	unsigned char current_counter;
-
+   	unsigned int contact_quality[14] ;         // Contact quality structure updated at every frame read
+    unsigned char battery;
+    unsigned char current_counter;
 } emokit_device;
 
 #ifdef __cplusplus
@@ -169,6 +170,7 @@ extern "C"
 	EMOKIT_DECLSPEC int emokit_get_crypto_key(emokit_device* s, const unsigned char* feature_report);
 
 	EMOKIT_DECLSPEC int emokit_get_next_frame(emokit_device* s);
+	EMOKIT_DECLSPEC int emokit_compute_next_frame(emokit_device* s);
 #ifdef __cplusplus
 };
 #endif

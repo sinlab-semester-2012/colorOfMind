@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 ColorOfMind 
 ===========
 
@@ -10,7 +10,6 @@ ________________________________________________________________________________
 
 The purpose of this program is to map the state of mind of the user using the Emotiv EPOC headset with a RGB spot light.
 The project is using the Emokit driver to get raw packets from the device.
-
 
 
 
@@ -29,7 +28,6 @@ Install
 
 On linux :
 Use the build.sh script
->>>>>>> b51360d07bdf620a029b60eb318dc1d701f1ffaa
 
 
 Required Libraries

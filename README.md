@@ -1,11 +1,5 @@
-
-ColorOfMind 
-===========
-
-The purpose of this program is to map the state of mind of the user using the Emotiv EPOC headset with a RGB spot light. The project is using the Emokit driver to get raw packets from the device.
-=======
-colorOfMind :
-A brain computer guided environment
+###colorOfMind :
+###A brain computer guided environment
 __________________________________________________________________________________
 
 The purpose of this program is to map the state of mind of the user using the Emotiv EPOC headset with a RGB spot light.
@@ -13,9 +7,7 @@ The project is using the Emokit driver to get raw packets from the device.
 
 
 
-
-
-Set up :
+###Set up :
 
 Install the following libraries on your computer:
 Mcrypt
@@ -24,13 +16,13 @@ FFTW
 oscpack
 
 
-Install
+###Install
 
 On linux :
 Use the build.sh script
 
 
-Required Libraries
+###Required Libraries
 ==================
 
 * Emokit - https://github.com/openyou/emokit/
@@ -40,10 +32,10 @@ Required Libraries
 * FFTW - http://www.fftw.org/
 * oscpack - http://code.google.com/p/oscpack/
 
-Platform Specifics Issues
+###Platform Specifics Issues
 =========================
 
-Linux
+####Linux
 -----
 
 Due to the way hidapi works, the linux version of emokit can run using

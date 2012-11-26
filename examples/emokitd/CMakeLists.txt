@@ -2,16 +2,16 @@
 #                epoc daemon                   #
 ##################################################
 
-add_executable (readData readData.c)
-ADD_DEPENDENCIES(readData emokit save_data emokit_dsp)
-target_link_libraries (readData emokit read_data emokit_dsp gnuplot_i ${LIBS})
+add_executable (emokitd emokitd.c)
+ADD_DEPENDENCIES(emokitd emokit)
+target_link_libraries (emokitd emokit emokit_dsp read_data gnuplot_i ${LIBS})
 
 SET_TARGET_PROPERTIES(emokitd PROPERTIES
 	INSTALL_RPATH_USE_LINK_PATH TRUE
 	INSTALL_RPATH ${CMAKE_INSTALL_PREFIX}/lib
 	BUILD_WITH_INSTALL_RPATH TRUE )
 
-INSTALL (TARGETS readData
+INSTALL (TARGETS emokitd
 	RUNTIME DESTINATION bin
 )
 

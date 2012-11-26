@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ ${PWD##*/} = "Emokit" ] ; then echo "Cleaning up";
+if [ ${PWD##*/} = "colorOfMind" ] ; then echo "Cleaning up";
 else echo "Wrong directory. exiting"; exit 1;
 fi
 
@@ -13,7 +13,7 @@ rm CMakeCache.txt cmake_install.cmake install_manifest.txt Makefile
 
 # clean lib directory
 cd lib/
-rm libemokit.a libOSC.so libband_waves.a libband_waves.so libdata_headset.a libdata_headset.so
+rm libemokit.a liboscpack.a libemokit_dsp.a liboscpack.so libread_data.a libsave_data.a
 cd ../
 
 # clean examples/emokit_osc directory
@@ -22,14 +22,26 @@ rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
 
-# clean examples/main directory
-cd examples/main/
+# clean examples/emokitd directory
+cd examples/emokitd/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
 
-# clean examples/saveData directory
-cd examples/saveData/
+# clean examples/contact directory
+cd examples/contact/
+rm -r CMakeFiles/
+rm cmake_install.cmake Makefile
+cd ../../
+
+# clean examples/main directory
+#cd examples/main/
+#rm -r CMakeFiles/
+#rm cmake_install.cmake Makefile
+#cd ../../
+
+# clean examples/saveDataToFile directory
+cd examples/saveDataToFile/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
@@ -47,10 +59,13 @@ rm cmake_install.cmake Makefile
 cd ../
 
 # clean include/oscpack directory
-cd lib/oscpack/
+cd include/oscpack/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
+
+# clean bin/ directory
+rm -r CMakeFiles/bin/
 
 # clean bin directory
 notDone=true

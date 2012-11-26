@@ -1,93 +1,159 @@
-/*
-Simple example of sending an OSC message using oscpack.
-*/
+/* Emotic EPOC daemon that decrypt stream using ECB and RIJNDAEL-128 cipher
+ * (well, not yet a daemon...)
+ * 
+ * Usage: epocd (consumer/research) /dev/emotiv/encrypted output_file
+ * 
+ * Make sure to pick the right type of device, as this determins the key
+ * */
+
 
 #include <cstdio>
 #include <cstring>
 #include <cstdlib>
 #include <csignal>
 #include <iostream>
-#include "../../lib/oscpack/osc/OscOutboundPacketStream.h"
-#include "../../lib/oscpack/ip/UdpSocket.h"
-#include "../../lib/emokit/emokit.h"
-#include "../../lib/emokit/data_headset.h"
+#include <unistd.h> //for usleep()
+#include "../../include/oscpack/osc/OscOutboundPacketStream.h"
+#include "../../include/oscpack/ip/UdpSocket.h"
 
-#define ADDRESS "127.0.0.1"
-#define PORT 9997
-
-#define OUTPUT_BUFFER_SIZE 4096
-
-void sigproc(int i)
+extern "C"
 {
-	std::cout << "closing emokit and quitting" << std::endl;
-	exit(0);
+#include "emokit/emokit.h"
+//#include "../../lib/emokit/emo_dsp.h"
+//#include "../../lib/emokit/data_headset.h"
 }
 
-int main(int argc, char* argv[])
+
+#define ADDRESS "127.0.0.1"
+#define PORT 9000
+
+#define OUTPUT_BUFFER_SIZE 4096
+ 
+
+//void adjustHeadset(emokit_device* d){
+	//int i;
+	//int nbUnsetCaptor=0;
+	//int quit =0;
+	//char answer;
+	
+	//do{
+		//for(i=0; i<256; i++){
+			//if(emokit_read_data(d) > 0)
+			//{
+				//emokit_get_next_frame(d);
+			//}
+		//}
+		//if(d->contact_quality[0]<3){
+				//printf("Captor F3 is not set up correctly\n");
+				//nbUnsetCaptor++;
+		//}
+		//if(d->contact_quality[8]<3){
+				//printf("Captor AF4 is not set up correctly\n");
+				//nbUnsetCaptor++;
+		//}
+		//if(d->contact_quality[9]<3){
+				//printf("Captor F4 is not set up correctly\n");
+				//nbUnsetCaptor++;
+		//}
+		//if(d->contact_quality[10]<3){
+				//printf("Captor F3 is not set up correctly\n");
+				//nbUnsetCaptor++;
+		//}
+		//if(nbUnsetCaptor == 0){
+			//printf("All captors are set up correctly. Launching the program\n");
+			//quit = 1;
+		//}
+		//else{
+			//printf("Please Adjust headset. Continue anyway ? y/n\n");
+			//scanf("%c", &answer);
+			//if(answer == 'y' || answer == 'Y'){
+				//quit =1;
+			//}
+		//}
+	//}while(!quit);
+//}
+
+int main(int argc, char **argv)
 {
-	signal(SIGINT, sigproc);
-	#ifndef WIN32
-	signal(SIGQUIT, sigproc);
-	#endif
-
-   	UdpTransmitSocket transmitSocket( IpEndpointName( ADDRESS, PORT ) );
-    
-   	char buffer[OUTPUT_BUFFER_SIZE];
-
-
-	FILE *input;
-	FILE *output;
-	  
+ 
 	emokit_device* d;
 	d = emokit_create();
-	
-	//Openfile 
-	unsigned int packet_nb=atoi(argv[2]);
-	data* dat;
-	dat = new_data(argv[1], packet_nb);
-	openDataFile(dat);
-	
-	unsigned int count = 0;
-	/*printf("Current epoc devices connected: %d\n", emokit_get_count(d, EMOKIT_VID, EMOKIT_PID));
+	//####### TEST CONNECTION ########
+	printf("Current epoc devices connected: %d\n", emokit_get_count(d, EMOKIT_VID, EMOKIT_PID));
 	if(emokit_open(d, EMOKIT_VID, EMOKIT_PID, 0) != 0)
 	{
 		printf("CANNOT CONNECT\n");
 		return 1;
-	}*/
-	int timer = 0;
-	//while(1){
-	while(data_get_next_frame(dat, d) == 0 && count < packet_nb){
-		emokit_compute_next_frame(d);
-		struct emokit_frame frame = d->current_frame;
+	}
+	//adjustHeadset(d);
+	//########## LOADING FILE ########
+	//unsigned int packet_nb = atoi(argv[2]);
+	//data* dat;
+	//dat = new_data(argv[1], packet_nb);
+	//openDataFile(dat);
+	//int counter = 0;
 
-		//printf("\r\33[2K");	//go back to beginning of line
-		printf("gyroX: %d; gyroY: %d; battery: %d\n", frame.gyroX, frame.gyroY, d->battery*100/128);
-		//printf(" contact qualities: ");
-		/*for(int i=0 ; i<14 ; i++){
-		printf("%d ", d->contact_quality[i]);
-		}*/
+	//############## OSC #############
+	UdpTransmitSocket transmitSocket( IpEndpointName( ADDRESS, PORT ) );    
+	char buffer[OUTPUT_BUFFER_SIZE];
+	char raw_frame[32];
+	struct emokit_frame frame;
+	
+	//############## FFT #############
+	//emo_dsp_state* s;
+	//s = make_new_dsp_state();
 
-		fflush(output);
+	printf("sending data\n");
+	//*******************************************************************
+	while(1)
+	//while(data_get_next_frame(dat, d) == 0 && counter < packet_nb)
+	{
+		if(emokit_read_data(d) > 0)
+		{
+			emokit_get_next_frame(d);
+			//emokit_compute_next_frame(d);
+			//struct emokit_frame frame = d->current_frame;
+			
+			//#################################
+			//######## UNENC RAW DATA #########
+			//#################################
+			//osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
+			//p << osc::BeginMessage( "/emokit/channels" )
+			  //<< frame.F3 << frame.FC6 << frame.P7 << frame.T8 << frame.F7 << frame.F8 
+			  //<< frame.T7 << frame.P8 << frame.AF4 << frame.F4 << frame.AF3 << frame.O2 
+			  //<< frame.O1 << frame.FC5 
+			  //<< osc::EndMessage;
+			//transmitSocket.Send( p.Data(), p.Size() );
+			
+			//osc::OutboundPacketStream q( buffer, OUTPUT_BUFFER_SIZE );
+			//q << osc::BeginMessage( "/emokit/gyro" ) 
+			  //<< (int)frame.gyroX << (int)frame.gyroY << osc::EndMessage;
+			//transmitSocket.Send( q.Data(), q.Size() );
 
-		osc::OutboundPacketStream p( buffer, OUTPUT_BUFFER_SIZE );
-		osc::OutboundPacketStream q( buffer, OUTPUT_BUFFER_SIZE );
-		p << osc::BeginMessage( "/emokit/channels" )
-		<< frame.F3 << frame.FC6 << frame.P7 << frame.T8 << frame.F7 << frame.F8 << frame.T7 << frame.P8 << frame.AF4 << frame.F4 << frame.AF3 << frame.O2 << frame.O1 << frame.FC5 << osc::EndMessage;
-		    
-		transmitSocket.Send( p.Data(), p.Size() );
+
+			//#################################
+			//############ RATIO ##############
+			//#################################
+			//process_frame(s, &d->current_frame);		
+			//osc::OutboundPacketStream r( buffer, OUTPUT_BUFFER_SIZE );
+			//r << osc::BeginMessage( "/emokit/ratio" ) 
+			  //<< (float)(s->average_beta_power[8]/s->average_alpha_power[8]/2+s->average_beta_power[10]/s->average_alpha_power[10]/2) 
+			  //<< (float)(s->average_beta_power[8]/s->average_alpha_power[8]-s->average_beta_power[10]/ s->average_alpha_power[10])
+			  //<< osc::EndMessage;
+			//transmitSocket.Send( r.Data(), r.Size() );
+			//printf("%f \n",s->average_beta_power[8]/s->average_alpha_power[8]/2+s->average_beta_power[10]/s->average_alpha_power[10]/2);
+			//printf("%f\n",s->average_beta_power[0]/ s->average_alpha_power[0]);
+			//printf("%f\n",s->f_channels[0][0][0]);
+
 		
-		q << osc::BeginMessage( "/emokit/gyro" )<< (int)frame.gyroX << (int)frame.gyroY << osc::EndMessage;
-		
-		transmitSocket.Send( q.Data(), q.Size() );
-		count++;
-		usleep(100000);
+		//counter++;
+		//usleep(5000);
+		}
 	}
 
-	closeFile(dat->fichier);
+	fflush(stdout);
+	//closeFile(dat->fichier);
 	emokit_close(d);
-	//emokit_delete(d);
+	emokit_delete(d);
 	return 0;
-
 }
-
-

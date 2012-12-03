@@ -13,7 +13,7 @@ rm CMakeCache.txt cmake_install.cmake install_manifest.txt Makefile
 
 # clean lib directory
 cd lib/
-rm libemokit.a liboscpack.a libemokit_dsp.a liboscpack.so libread_data.a libsave_data.a
+rm libemokit.a liboscpack.a libemokit_dsp.a liboscpack.so libread_data.a libsave_data.a libplot.a libemotions.a libgnuplot_i.a libclassifier.a
 cd ../
 
 # clean examples/emokit_osc directory

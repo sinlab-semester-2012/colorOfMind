@@ -45,7 +45,8 @@ INSTALL(FILES
   DESTINATION include/read_data_lib
   )
   
-  # Create a library called "read_data"
+  
+# Create a library called "GNUPLOT_I"
 ADD_LIBRARY (gnuplot_i STATIC gnuplot_i.c) 
 target_link_libraries (gnuplot_i ${LIBS}) 
 
@@ -59,15 +60,28 @@ INSTALL(FILES
   DESTINATION include/gnuplot_i_lib
   )
 
+  # Create a library called "classifier"
+ADD_LIBRARY (classifier STATIC classifier.c) 
+target_link_libraries (classifier emokit ${LIBS}) 
+
+INSTALL (TARGETS classifier
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+INSTALL(FILES
+  ${CLASSIFIER_HEADERS}
+  DESTINATION include/classifier_lib
+  )
+
 
 # Create a library called "emokit_dsp"
 ADD_LIBRARY (emokit_dsp STATIC emokit_dsp.c) 
-
 # link the math library for linux, automatic for windows
 IF(UNIX)
   TARGET_LINK_LIBRARIES(emokit_dsp m)
 ENDIF(UNIX)
-target_link_libraries (emokit_dsp emokit ${LIBS}) 
+  target_link_libraries(emokit_dsp emokit classifier ${LIBS})
 
 INSTALL (TARGETS emokit_dsp
   LIBRARY DESTINATION lib
@@ -77,5 +91,40 @@ INSTALL (TARGETS emokit_dsp
 INSTALL(FILES
   ${EMOKIT_DSP_HEADERS}
   DESTINATION include/emokit_dsp_lib
+  )
+
+
+# Create a library called "emotions"
+ADD_LIBRARY (emotions STATIC emotions.c) 
+# link the math library for linux, automatic for windows
+IF(UNIX)
+  TARGET_LINK_LIBRARIES(emotions m)
+ENDIF(UNIX)
+  target_link_libraries(emotions emokit emokit_dsp ${LIBS})
+
+
+INSTALL (TARGETS emotions
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+INSTALL(FILES
+  ${EMOTIONS_HEADERS}
+  DESTINATION include/emotions_lib
+  )
+
+
+# Create a library called "plot"
+ADD_LIBRARY (plot STATIC plot.c) 
+target_link_libraries (plot emokit emokit_dsp gnuplot_i ${LIBS}) 
+
+INSTALL (TARGETS plot
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+INSTALL(FILES
+  ${PLOT_HEADERS}
+  DESTINATION include/plot_lib
   )
 

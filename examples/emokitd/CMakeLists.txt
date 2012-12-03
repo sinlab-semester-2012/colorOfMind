@@ -4,7 +4,7 @@
 
 add_executable (emokitd emokitd.c)
 ADD_DEPENDENCIES(emokitd emokit)
-target_link_libraries (emokitd emokit emokit_dsp read_data gnuplot_i ${LIBS})
+target_link_libraries (emokitd emokit read_data emokit_dsp gnuplot_i ${LIBS})
 
 SET_TARGET_PROPERTIES(emokitd PROPERTIES
 	INSTALL_RPATH_USE_LINK_PATH TRUE

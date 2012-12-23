@@ -12,44 +12,55 @@
 #include "emokit/emokit.h"
 #include "emokit/read_data.h"
 #include "emokit/plot.h"
-//#include "emokit/emokit_dsp.h"
+#include "emokit/emotions.h"
+#include "emokit/emokit_dsp.h"
 
 
 int main(int argc, char **argv)
 {
 	//****** READ FILE ******
 	data* dat;
-	int nbSamples = atoi(argv[2]);
-	dat = new_data(argv[1], nbSamples);
+	//int nbSamples = atoi(argv[2]);
+	dat = new_data(argv[1], 1);
 	
 	//****** DSP struct *****
 	emokit_dsp* dsp;
 	dsp = emokit_dsp_create();
 	
+	//***** EMOTIONS *****
+	emotions* e;
+	e = init_emotions(dsp);
 	
 	//********* PLOT *****
 	plot* p;
-	p = init_plot(dsp);
+	p = init_plot(dsp, e);
 
 
 	
 	if(open_data_file(dat)>0){
-			printf("Error opening the file\nClosing the program\n");
+			//printf("Error opening the file\nClosing the program\n");
 			return 1;
 	}
 	
 	int k=0;
-	printf("Starting read\n");
+	//printf("Starting read\n");
 	while(!feof(dat->fichier))
 	{
 			struct emokit_frame c;
 			c = data_get_next_frame(dat);
 			compute_frame(dsp, c);
 			
-			if(k%100==0){
-				plot_reset(p);
-				plot_fourier(p);
-				usleep(100000);
+			if(k%32==0){
+				compute_arousal(e);
+				compute_valence(e);
+				printf("%e;%e\n", e->arousal, e->valence);
+				//printf("%e    %e   %e\n", e->valence_4s, e->valence_20s, e->valence);
+				
+				//plot_reset(p);
+				//plot_average_fourier(p);
+				//plot_arousal(p);
+				//plot_valence(p);
+				//usleep(500000);
 			}
 			k++;
 			fflush(stdout);

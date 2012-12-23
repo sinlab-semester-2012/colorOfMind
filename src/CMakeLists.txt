@@ -116,7 +116,7 @@ INSTALL(FILES
 
 # Create a library called "plot"
 ADD_LIBRARY (plot STATIC plot.c) 
-target_link_libraries (plot emokit emokit_dsp gnuplot_i ${LIBS}) 
+target_link_libraries (plot emokit emokit_dsp gnuplot_i emotions ${LIBS}) 
 
 INSTALL (TARGETS plot
   LIBRARY DESTINATION lib

@@ -21,8 +21,8 @@ emokit_dsp* emokit_dsp_create()
 	dsp->counter=0;
 	
 	//chose window
-    no_window(dsp->window);
-	//hamming_window(dsp->window);
+    //no_window(dsp->window);
+	hamming_window(dsp->window);
 	
 	return dsp;
 }
@@ -153,10 +153,12 @@ void compute_frame(emokit_dsp* dsp, struct emokit_frame frame){
     {
         //Shift all the frames back
         int i;
+        mean(dsp, c);
         for(i=1;i<W_SIZE;i++)
         {
             (dsp->channels[c])[i-1][0] = (dsp->channels[c])[i][0];
             (dsp->filtered_channels[c])[i-1][0] = (dsp->channels[c])[i][0];
+            dsp->value[c][i-1] = dsp->value[c][i];
         }
         //Check if value of sensor are correct using the min-max bound given by the classifier
         
@@ -165,30 +167,41 @@ void compute_frame(emokit_dsp* dsp, struct emokit_frame frame){
 			case F3_SENSOR:
 				//frame.F3 = min(dsp->cf->max_value[F3_SENSOR], frame.F3);
 				//frame.F3 = max(dsp->cf->min_value[F3_SENSOR], frame.F3);
-				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3)-MAX_SENSOR_VALUE))/(double)MAX_SENSOR_VALUE; //sin(dsp->counter/5);
+				dsp->value[c][W_SIZE-1] = frame.F3;
+				mean(dsp,c);
+				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE; //sin(dsp->counter/5);
 				break;
 			case F4_SENSOR:
 				//frame.F4 = min(dsp->cf->max_value[F4_SENSOR], frame.F4);
 				//frame.F4 = max(dsp->cf->min_value[F4_SENSOR], frame.F4);
-				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4)-MAX_SENSOR_VALUE))/(double)MAX_SENSOR_VALUE;
+				dsp->value[c][W_SIZE-1] = frame.F4;
+				mean(dsp,c);
+				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
-			case AF3_SENSOR:
+			case F3AF3:
 				//frame.AF3 = min(dsp->cf->max_value[AF3_SENSOR], frame.AF3);
 				//frame.AF3 = max(dsp->cf->min_value[AF3_SENSOR], frame.AF3);
-				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.AF3)-MAX_SENSOR_VALUE))/(double)MAX_SENSOR_VALUE;
+				dsp->value[c][W_SIZE-1] = frame.F3-frame.AF3;
+				mean(dsp,c);
+				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3-frame.AF3)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
-			case AF4_SENSOR:
+			case F4AF4:
 				//frame.AF4 = min(dsp->cf->max_value[AF4_SENSOR], frame.AF4);
 				//frame.AF4 = max(dsp->cf->min_value[AF4_SENSOR], frame.AF4);
-				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.AF4)-MAX_SENSOR_VALUE))/(double)MAX_SENSOR_VALUE;
+				dsp->value[c][W_SIZE-1] = frame.F4-frame.AF4;
+				mean(dsp,c);
+				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4-frame.AF4)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
 			case O2_SENSOR:
 				//frame.O2 = min(dsp->cf->max_value[O2_SENSOR], frame.O2);
 				//frame.O2 = max(dsp->cf->min_value[O2_SENSOR], frame.O2);
-				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.O2)-MAX_SENSOR_VALUE))/(double)MAX_SENSOR_VALUE;
+				dsp->value[c][W_SIZE-1] = frame.O2;
+				mean(dsp,c);
+				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.O2)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
 			default:
-				printf("shouldn't be here");
+				printf("Error in compute_frame(). Shouldn't be here");
+				break;
 		}
         //processing the fft of the channel
         high_pass_filter(dsp,c);
@@ -205,10 +218,19 @@ void compute_frame(emokit_dsp* dsp, struct emokit_frame frame){
     dsp->counter++;
 }
 
+void mean(emokit_dsp* dsp, int channel){
+	dsp->mean[channel] = 0;
+	int i;
+	for(i=0; i<W_SIZE; i++){
+		dsp->mean[channel] += dsp->value[channel][i]/(1.0*W_SIZE);
+	}
+	//printf("%e\n", dsp->mean[channel]);
+}
+
 void compute_power_band(emokit_dsp* dsp, int channel){
 	int j;
 	for(j=0; j<W_SIZE; j++){
-		dsp->band_power[channel][j][dsp->counter%HISTORY] = log((dsp->f_channels[channel])[j][0]*(dsp->f_channels[channel])[j][0]+(dsp->f_channels[channel])[j][1]*(dsp->f_channels[channel])[j][1]);
+		dsp->band_power[channel][j][dsp->counter%HISTORY] = (dsp->f_channels[channel])[j][0]*(dsp->f_channels[channel])[j][0]+(dsp->f_channels[channel])[j][1]*(dsp->f_channels[channel])[j][1];
 	}
 }
 
@@ -219,28 +241,3 @@ void compute_alpha_power(emokit_dsp* dsp, int channel){
 void compute_beta_power(emokit_dsp* dsp, int channel){
 	dsp->beta_power[channel][dsp->counter%HISTORY] = compute_power_band_wave(dsp, channel, BETA_START, BETA_END);
 }
-
-//void compute_average_alpha_power(emokit_dsp* dsp){
-	//int i,j;
-	////for each channel
-	//for(i=0; i<NB_CHANNEL; i++){
-		//dsp->average_alpha_power[i] = 0;
-		////for each value last HISTORY values
-		//for(j=0; j<HISTORY; j++){
-			//dsp->average_alpha_power[i] += dsp->alpha_power[i][j]/HISTORY;
-		//}
-	//}
-//}
-
-//void compute_average_beta_power(emokit_dsp* dsp){
-	//int i,j;
-	////for each channel
-	//for(i=0; i<NB_CHANNEL; i++){
-		//dsp->average_beta_power[i] = 0;
-		////for each value last HISTORY values
-		//for(j=0; j<HISTORY; j++){
-			//dsp->average_beta_power[i] += dsp->beta_power[i][j]/HISTORY;
-		//}
-	//}
-//}
-

@@ -1,3 +1,7 @@
+#ifndef LIBEMOKIT_DSP_H_
+#define LIBEMOKIT_DSP_H_
+
+
 #include "emokit.h"
 #include "classifier.h"
 #include <fftw3.h>
@@ -32,8 +36,9 @@ extern "C" {
 //Name the sensor we need : F3,F4,AF3,AF4
 #define F3_SENSOR 0
 #define F4_SENSOR 1
-#define AF3_SENSOR 2
-#define AF4_SENSOR 3
+//bipolar sensor using the F3, F4 as references
+#define F3AF3 2
+#define F4AF4 3
 #define O2_SENSOR 4
 
 //Start and end of band waves of interest
@@ -63,6 +68,9 @@ typedef struct
     //Window function coefficients
     double window[W_SIZE];
     
+    int value[NB_CHANNEL][W_SIZE];
+    double mean[NB_CHANNEL];
+    
     classifier* cf;
     
     int counter;
@@ -78,6 +86,7 @@ void free_fft(emokit_dsp* dsp);
 void hamming_window(double* w);
 void flat_top_window(double* window);
 void no_window(double* w);
+void mean(emokit_dsp*, int);
 
 double compute_power_band_wave(emokit_dsp* dsp, int channel, int start, int end);
 void compute_frame(emokit_dsp* s, struct emokit_frame f);
@@ -89,3 +98,5 @@ void compute_beta_power(emokit_dsp* dsp, int channel);
 #ifdef __cplusplus
 };
 #endif
+
+#endif //LIBEMOKIT_H_

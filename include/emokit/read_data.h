@@ -9,6 +9,7 @@ typedef struct
     FILE* fichier;
     unsigned int nbSamples;
     unsigned int readingCursor;
+    int play;
 } data;
 
 #ifdef __cplusplus

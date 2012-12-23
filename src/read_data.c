@@ -9,6 +9,7 @@ data* new_data(char* name, unsigned int nbSamples){
     dat->nbSamples = nbSamples;
     dat->fichier = NULL;
     dat->readingCursor = 0;
+    dat->play = 1;
     return dat;
 }
 
@@ -46,7 +47,10 @@ struct emokit_frame data_get_next_frame(data* dat){
 	k.counter = 0;
 	k.battery = 0;
 	int gyroX, gyroY;
-	fscanf(dat->fichier, "data: %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i\n", &k.F3,&k.FC6,&k.P7,&k.T8,&k.F7,&k.F8,&k.T7,&k.P8,&k.AF4,&k.F4,&k.AF3,&k.O2,&k.O1,&k.FC5,&gyroX,&gyroY); 
+	dat->play = fscanf(dat->fichier, "data: %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i\n", &k.F3,&k.FC6,&k.P7,&k.T8,&k.F7,&k.F8,&k.T7,&k.P8,&k.AF4,&k.F4,&k.AF3,&k.O2,&k.O1,&k.FC5,&gyroX,&gyroY); 
+	if(dat->play == 0){
+			exit(EXIT_FAILURE);
+	}
 	k.gyroX = (char) gyroX;
 	k.gyroY = (char) gyroY;
 	//printf("%c", gyroX);

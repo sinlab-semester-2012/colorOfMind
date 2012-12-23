@@ -11,7 +11,8 @@
 
 #include "emokit/emokit.h"
 #include "emokit/emokit_dsp.h"
-#include "gnuplot/gnuplot_i.h"
+#include "emokit/plot.h"
+#include "emokit/emotions.h"
   
 void adjustHeadset(struct emokit_device* d){
 	int i;
@@ -61,11 +62,16 @@ void adjustHeadset(struct emokit_device* d){
 	}while(!quit);
 }   
 
-void shiftTable(double t[5][1000]){
-	int i,j=0;
-	for(j=0; j<5; j++){
-		for(i=998; i>=0; i--){
-			t[j][i+1] = t[j][i];
+void initialize_data(struct emokit_device* d, emokit_dsp* dsp){
+	int i=0;
+	while(i<W_SIZE)
+	{
+		if(emokit_read_data(d) > 0)
+		{
+			struct emokit_frame c;
+			c = emokit_get_next_frame(d);
+			compute_frame(dsp, c);
+			i++;
 		}
 	}
 }
@@ -78,14 +84,14 @@ int main(int argc, char **argv)
 	//*** DSP struct ***
 	emokit_dsp* dsp;
 	dsp = emokit_dsp_create();
+
+	//***** EMOTIONS *****
+	emotions* e;
+	e = init_emotions(dsp);
 	
-	//********* GNUPLOT *****
-	gnuplot_ctrl * h ;
-    h = gnuplot_init();
-    gnuplot_setstyle(h,"lines");
-    gnuplot_set_xlabel(h, "Magnitude") ;
-    gnuplot_set_xlabel(h, "F") ;
-    double ratio[5][1000];
+	//********* PLOT *****
+	plot* p;
+	p = init_plot(dsp, e);
 	
 	//*** Check epoc connected
 	printf("Current epoc devices connected: %d\n", emokit_get_count(d, EMOKIT_VID, EMOKIT_PID));
@@ -98,7 +104,7 @@ int main(int argc, char **argv)
 	printf("Connected\n");
 	
 	adjustHeadset(d);
-	
+	initialize_data(d,dsp);
 	int k=0;
 	
 	//** MAIN LOOP **
@@ -109,36 +115,26 @@ int main(int argc, char **argv)
 			struct emokit_frame c;
 			c = emokit_get_next_frame(d);
 			compute_frame(dsp, c);
-			shiftTable(ratio);
 			
-			ratio[0][0] = dsp->alpha_power[0][0]/dsp->beta_power[0][0]*5/8;
-			ratio[1][0] = dsp->alpha_power[1][0]/dsp->beta_power[1][0]*5/8;
-			ratio[2][0] = dsp->alpha_power[2][0]/dsp->beta_power[2][0]*5/8;
-			ratio[3][0] = dsp->alpha_power[3][0]/dsp->beta_power[3][0]*5/8;
-			ratio[4][0] = dsp->alpha_power[4][0]/dsp->beta_power[4][0]*5/8;
-			if(k%100==0){
-				gnuplot_plot_x(h, ratio[0], 1000, "F3") ;
-				gnuplot_plot_x(h, ratio[1], 1000, "F4") ;
-				gnuplot_plot_x(h, ratio[2], 1000, "AF3") ;
-				gnuplot_plot_x(h, ratio[3], 1000, "AF4") ;
-				gnuplot_plot_x(h, ratio[4], 1000, "O2") ;
-				//gnuplot_plot_x(h, dsp->average_fourier[0], 32, "sensor F3") ;
-				//gnuplot_plot_x(h, dsp->average_fourier[1], 32, "sensor F4") ;
-				//gnuplot_plot_x(h, dsp->average_fourier[2], 32, "sensor AF3") ;
-				//gnuplot_plot_x(h, dsp->average_fourier[3], 32, "sensor AF4") ;
-				//gnuplot_plot_x(h, dsp->average_fourier[4], 32, "sensor O2") ;
-				//gnuplot_plot_x(h, ratio[1], 1000, "ratio a/b");
+			if(k%32==0){
+				compute_arousal(e);
+				compute_valence(e);
+				printf("%i,%i\n", c.gyroX, c.gyroY);
+				//printf("%e    %e   %e\n", e->arousal_4s, e->arousal_20s, e->arousal);
+				//printf("%e    %e   %e\n", e->valence_4s, e->valence_20s, e->valence);
 				
-				usleep(1000000);	
-				gnuplot_resetplot(h);
-				//sleep();
+				//plot_reset(p);
+				//plot_arousal(p);
+				//plot_valence(p);
+				//usleep(1000000);	
+
 			}
 			fflush(stdout);
 			k++;
 		}
 	}
 
-	gnuplot_close(h) ;
+	plot_close(p);
 	emokit_close(d);
 	emokit_delete(d);
 	return 0;

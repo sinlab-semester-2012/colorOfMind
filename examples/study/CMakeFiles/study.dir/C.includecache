@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gael/colorOfMind/examples/study/study.c
+stdio.h
+-
+string.h
+-
+emokit/emokit.h
+/home/gael/colorOfMind/examples/study/emokit/emokit.h
+emokit/save_data.h
+/home/gael/colorOfMind/examples/study/emokit/save_data.h
+
+include/emokit/emokit.h
+stdint.h
+-
+
+include/emokit/save_data.h
+stdlib.h
+-
+stdio.h
+-
+string.h
+-
+emokit/emokit.h
+include/emokit/emokit/emokit.h
+

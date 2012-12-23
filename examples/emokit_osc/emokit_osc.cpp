@@ -19,8 +19,6 @@
 extern "C"
 {
 #include "emokit/emokit.h"
-//#include "../../lib/emokit/emo_dsp.h"
-//#include "../../lib/emokit/data_headset.h"
 }
 
 

@@ -32,14 +32,18 @@ For more infos:
 
 ##Install
 
-On linux :
+###Linux
 Install the dependencies  
-Use the build.sh script  
+Follow the guide to install the depedencies if needed : https://github.com/sinlab-semester-2012/colorOfMind/wiki/How-to-Install-%3F
+
+Use the build.sh script and then the example you want :
 "./bin/emotiv" to get the datas from the headset or a file  
 "./bin/contact" to get the real-time value of the sensors  
 "./bin/lightShow" to start the light show  
 
-On windows :
+###Windows :
+Install the dependencies
+Build the program using the cmake command
 Should work not tested yet
 
 ##Platform Specifics Issues

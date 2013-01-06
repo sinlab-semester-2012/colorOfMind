@@ -1,3 +1,4 @@
+<<<<<<< HEAD
   
 
 
@@ -15,19 +16,44 @@
     <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144.png" />
     <meta name="msapplication-TileImage" content="/windows-tile.png">
     <meta name="msapplication-TileColor" content="#ffffff">
+=======
+##colorOfMind - A brain computer guided environment
+
+
+The purpose of this program is to map the state of mind of the user using the Emotiv EPOC headset with a RGB spot light.
+The project is using the Emokit driver to get raw packets from the device and FFTW to process the signal.
+
+For more infos:  
+*The project, please check the wiki : https://github.com/sinlab-semester-2012/colorOfMind/wiki  
+*Emotiv EPOC : http://en.wikipedia.org/wiki/Emotiv_Systems#Emotiv_EPOC  
+*SINLAB : http://www.sinlab.ch/  
+>>>>>>> b4da2f5b624d22b10833c65651540d60965c62aa
 
     
     
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
+<<<<<<< HEAD
     <meta content="authenticity_token" name="csrf-param" />
 <meta content="wTZKI3e5lSPJm6yafZGI52m+18gQyzTtXn2w7xT72ow=" name="csrf-token" />
 
     <link href="https://a248.e.akamai.net/assets.github.com/assets/github-8fe1e4a1e0551ad89f1b244e4b6de8214880aaf1.css" media="screen" rel="stylesheet" type="text/css" />
     <link href="https://a248.e.akamai.net/assets.github.com/assets/github2-6453311924e72881f7fc04c5f431847ef213901b.css" media="screen" rel="stylesheet" type="text/css" />
     
+=======
+##Required Libraries
+==================
 
+###Emokit  
+*CMake - http://www.cmake.org  
+*libmcrypt - https://sourceforge.net/projects/mcrypt/  
+*hidapi - http://www.signal11.us/oss/hidapi/  
+>>>>>>> b4da2f5b624d22b10833c65651540d60965c62aa
 
+###Signal Processing
+*FFTW 3.3 - http://www.fftw.org/download.html  
+
+<<<<<<< HEAD
     <script src="https://a248.e.akamai.net/assets.github.com/assets/frameworks-971f385ccf2fcbf04f87e9ffca82e855620eb233.js" type="text/javascript"></script>
     <script src="https://a248.e.akamai.net/assets.github.com/assets/github-7f9cff56713bf383147d4e2aca4f8a9b7c9720b0.js" type="text/javascript"></script>
     
@@ -39,17 +65,48 @@
     <meta property="og:image" content="https://secure.gravatar.com/avatar/bd0cc000a21974697a24aa2cc928faa2?s=420&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-user-420.png"/>
     <meta property="og:site_name" content="GitHub"/>
     <meta property="og:description" content=" a brain computer guided environment. Contribute to colorOfMind development by creating an account on GitHub."/>
+=======
+###Dmx (optional)
+*oscpack - Modified version already included in colorOfMind  
+*Processing - http://processing.org/  
+*DMXP512 - http://motscousus.com/stuff/2011-01_dmxP512/  
+
+###Plot (optional)
+*Gnuplot - http://www.gnuplot.info/faq/faq.html
+>>>>>>> b4da2f5b624d22b10833c65651540d60965c62aa
 
     <meta name="description" content=" a brain computer guided environment. Contribute to colorOfMind development by creating an account on GitHub." />
 
+<<<<<<< HEAD
   <link href="https://github.com/sinlab-semester-2012/colorOfMind/commits/master.atom" rel="alternate" title="Recent Commits to colorOfMind:master" type="application/atom+xml" />
 
   </head>
 
+=======
+##Install
+
+###Linux
+Install the dependencies  
+Follow the guide to install the depedencies if needed : https://github.com/sinlab-semester-2012/colorOfMind/wiki/How-to-Install-%3F
+
+Use the build.sh script and then the example you want :
+"./bin/emotiv" to get the datas from the headset or a file  
+"./bin/contact" to get the real-time value of the sensors  
+"./bin/lightShow" to start the light show  
+
+###Windows :
+Install the dependencies
+Build the program using the cmake command
+Should work not tested yet
+
+##Platform Specifics Issues
+=========================
+>>>>>>> b4da2f5b624d22b10833c65651540d60965c62aa
 
   <body class="logged_in page-blob linux vis-public env-production ">
     <div id="wrapper">
 
+<<<<<<< HEAD
       
 
       
@@ -961,3 +1018,10 @@ I think you should use an
   </body>
 </html>
 
+=======
+"Due to the way hidapi works, the linux version of emokit can run using
+either hidraw calls or libusb. These will require different udev rules
+for each. We've tried to cover both (as based on hidapi's example udev
+file), but your mileage may vary. If you have problems, please post
+them to the github issues page (http://github.com/openyou/emokit/issues)."
+>>>>>>> b4da2f5b624d22b10833c65651540d60965c62aa

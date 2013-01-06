@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/gael/colorOfMind/examples/dmx/dmx_demo.c
+stdio.h
+-
+stdlib.h
+-
+signal.h
+-
+sys/time.h
+-
+sys/types.h
+-
+sys/stat.h
+-
+fcntl.h
+-
+sys/ioctl.h
+-
+unistd.h
+-
+../dmx512/ofxDmx.h
+/home/gael/colorOfMind/examples/dmx/../dmx512/ofxDmx.h
+

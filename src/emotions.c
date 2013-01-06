@@ -4,17 +4,20 @@ emotions* init_emotions(emokit_dsp* dsp){
 	emotions* e;
 	e = malloc(sizeof(emotions));
 	e->dsp = dsp;
-	e->max_diff_arousal=0.35;
+	e->max_diff_arousal=0.40;
 	e->max_diff_valence=0.35;
 	return e;
 }
 
+//Normalize the arousal from the difference between the 4 second value and the 20 second value 
 void compute_arousal(emotions* e){
 	compute_average_arousal(e);
 	if(fabs(e->arousal_4s-e->arousal_20s) > e->max_diff_arousal)
 		e->max_diff_arousal = fabs(e->arousal_4s-e->arousal_20s);
 	e->arousal = (e->arousal_4s-e->arousal_20s)/e->max_diff_arousal;
 }
+
+//Compute the 4s arousal average value and the 20s value
 void compute_average_arousal(emotions* e){
 	int i;
 	e->arousal_4s = 0;
@@ -31,7 +34,7 @@ void compute_average_arousal(emotions* e){
 	
 }
 
-//TODO: still unstable
+//Normalize the valence from the difference between the 4 second value and the 20 second value 
 void compute_valence(emotions* e){
 	compute_average_valence(e);
 	if(fabs(e->valence_4s-e->valence_20s) > e->max_diff_valence)
@@ -39,6 +42,7 @@ void compute_valence(emotions* e){
 	e->valence = (e->valence_4s - e->valence_20s)/e->max_diff_valence;
 }
 
+//Compute the 4s valence average value and the 20s value
 void compute_average_valence(emotions* e){
 	int i;
 	e->valence_4s = 0;

@@ -43,10 +43,6 @@ void adjustHeadset(struct emokit_device* d){
 			printf("Captor AF4 is not set up correctly, value : %i\n", c.cq.AF4);
 			nbUnsetCaptor++;
 		}
-		if(c.cq.O2<4000){
-			printf("Captor O2 is not set up correctly, value : %i\n", c.cq.O2);
-			nbUnsetCaptor++;
-		}
 		if(nbUnsetCaptor == 0){
 			printf("All captors are set up correctly. Launching the program\n");
 			quit = 1;
@@ -88,66 +84,18 @@ int main(int argc, char **argv)
 	
 	adjustHeadset(d);
 	int k=0;
+	char filename[50];
 	ready_start();
 	
-	//** 1st step Normal : 10 sec = 1280 samples**
+	//** 1st step Normal : 20 sec = 1280 samples**
 	data* dat;
-	dat = new_data(strcat(argv[1],"_start"), 10);
+	dat = new_data(strcat(strcpy(filename, argv[1]),"_s2"), 35);
 	if(create_data_file(dat)>0){
 			printf("Error creating the file\nClosing the program\n");
 			return 1;
 	};
 	write_data(dat, d);
 	close_data(dat);
-
-	
-	//** 1bis step Neutral : 15 sec = 1280 samples**
-	data* dat1;
-	dat1 = new_data(strcat(argv[1],"_neutral1"), 15);
-	if(create_data_file(dat1)>0){
-			printf("Error creating the file\nClosing the program\n");
-			return 1;
-	};
-	write_data(dat1, d);
-	close_data(dat1);
-	
-	//2nd step HAPPY memory: 15 sec
-	printf("Think about a happy memory\n");
-	sleep(3);
-	data* dat2;
-	dat2 = new_data(strcat(argv[1],"_happy"), 15);
-	if(create_data_file(dat2)>0){
-			printf("Error creating the file\nClosing the program\n");
-			return 1;
-	};
-	write_data(dat2, d);
-	close_data(dat2);
-	
-	//3rd step NEUTRAL: 15 sec
-	printf("Try to relax and clear your mind\n");
-	sleep(3);
-	data* dat3;
-	dat3 = new_data(strcat(argv[1],"_neutral2"), 15);
-	if(create_data_file(dat3)>0){
-			printf("Error creating the file\nClosing the program\n");
-			return 1;
-	};
-	write_data(dat3, d);
-	close_data(dat3);
-	
-	//3rd step SAD memory
-	printf("Think about a sad memory\n");
-	sleep(3);
-	data* dat4;
-	dat4 = new_data(strcat(argv[1],"_sad"), 15);
-	if(create_data_file(dat4)>0){
-			printf("Error creating the file\nClosing the program\n");
-			return 1;
-	};
-	write_data(dat4, d);
-	close_data(dat4);
-	
-	printf("Thank you, it's over\n");
 
 	emokit_close(d);
 	emokit_delete(d);

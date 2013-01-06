@@ -1,5 +1,3 @@
-
-
 # FFTW_INCLUDE_DIR = fftw3.h
 # FFTW_LIBRARIES = libfftw3.a
 # FFTW_FOUND = true if FFTW3 is found

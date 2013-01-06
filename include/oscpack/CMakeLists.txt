@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.6)
-PROJECT(TestOSC)
+PROJECT(OSC)
 
 INCLUDE_DIRECTORIES(${OSC_SOURCE_DIR})
 
@@ -20,25 +20,15 @@ osc/OscPrintReceivedElements.cpp
 osc/OscReceivedElements.cpp
 osc/OscTypes.cpp
 osc/OscOutboundPacketStream.cpp
-
 )
 
-IF(WIN32)
-ADD_EXECUTABLE(OscDump examples/OscDump.cpp)
-TARGET_LINK_LIBRARIES(OscDump OSC Ws2_32 winmm)
+INSTALL (TARGETS oscpack
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
 
-ADD_EXECUTABLE(SimpleReceive examples/SimpleReceive.cpp)
-TARGET_LINK_LIBRARIES(SimpleReceive OSC Ws2_32 winmm)
+INSTALL(FILES
+  ${LIBEMOKIT_HEADERS}
+  DESTINATION include/liboscpack
+  )
 
-ADD_EXECUTABLE(SimpleSend examples/SimpleSend.cpp)
-TARGET_LINK_LIBRARIES(SimpleSend OSC Ws2_32 winmm)
-ELSE(WIN32)
-ADD_EXECUTABLE(OscDump examples/OscDump.cpp)
-TARGET_LINK_LIBRARIES(OscDump OSC)
-
-ADD_EXECUTABLE(SimpleReceive examples/SimpleReceive.cpp)
-TARGET_LINK_LIBRARIES(SimpleReceive OSC)
-
-ADD_EXECUTABLE(SimpleSend examples/SimpleSend.cpp)
-TARGET_LINK_LIBRARIES(SimpleSend OSC)
-ENDIF(WIN32)

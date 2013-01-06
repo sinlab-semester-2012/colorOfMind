@@ -3,12 +3,16 @@
 data* new_data(char* name, unsigned int t){	
     data* dat = (data*)malloc(sizeof(data));
 
-    //TODO : check input or bufferoverflow possible
     dat->name = (char*)malloc(sizeof(char)*50);
     strncpy(dat->name, name, 50);
     //128 packets per second
     dat->nbSamples = t*128;
     dat->fichier = NULL;
+
+    dat->readingCursor = 0;
+    dat->play = 1;
+    return dat;
+    
     return dat;
 }
 
@@ -46,9 +50,55 @@ int write_data(data* dat, struct emokit_device* d){
 			fprintf(dat->fichier, "data: %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i\n", f.F3,f.FC6,f.P7,f.T8,f.F7,f.F8,f.T7,f.P8,f.AF4,f.F4,f.AF3,f.O2,f.O1,f.FC5,f.gyroX,f.gyroY);
 			i++;
 		}
+		if(i%(5*128)==0){
+				printf("%d sec\n", i/128);
+		}
 	}
 	printf("Sucess writing the %u samples\n", dat->nbSamples);
 	return 0;	
+}
+
+int open_data_file(data* dat){
+	dat->fichier = fopen(dat->name, "r");
+	if(check_file_opening(dat->fichier) ==0){
+		rewind(dat->fichier);
+		fscanf(dat->fichier, "%d", &dat->nbSamples);
+		return 0;
+	}
+	else return 1;
+}
+
+int check_file_opening(FILE* fichier){
+	if (fichier != NULL)
+    {
+		//TODO changer selon création ou ouverture
+        printf("File read sucessfully.\n");
+        return 0;
+    }
+    else
+    {
+        // On affiche un message d'erreur si on veut
+        printf("Error : Couldn't open the file in saveEmokitData()\n");
+        return 1;
+    }
+}
+
+struct emokit_frame data_get_next_frame(data* dat){
+	//recompose an emokit_frame
+	struct emokit_frame k;
+	memset(&k.cq,0,sizeof(struct emokit_contact_quality));
+	
+	//battery, counter and contact quality are not stored
+	k.counter = 0;
+	k.battery = 0;
+	int gyroX, gyroY;
+	dat->play = fscanf(dat->fichier, "data: %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i %i\n", &k.F3,&k.FC6,&k.P7,&k.T8,&k.F7,&k.F8,&k.T7,&k.P8,&k.AF4,&k.F4,&k.AF3,&k.O2,&k.O1,&k.FC5,&gyroX,&gyroY); 
+	if(dat->play == 0){
+			exit(EXIT_FAILURE);
+	}
+	k.gyroX = (char) gyroX;
+	k.gyroY = (char) gyroY;
+	return k;
 }
 
 int close_data(data* d){

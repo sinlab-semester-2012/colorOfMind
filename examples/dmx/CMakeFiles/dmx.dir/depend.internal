@@ -3,9 +3,3 @@
 
 examples/dmx/CMakeFiles/dmx.dir/dmx.c.o
  /home/gael/colorOfMind/examples/dmx/dmx.c
- /usr/local/include/fftw3.h
- include/emokit/classifier.h
- include/emokit/emokit.h
- include/emokit/emokit_dsp.h
- include/emokit/emotions.h
- include/emokit/read_data.h

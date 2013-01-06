@@ -1,9 +1,7 @@
 #ifndef LIBEMOKIT_DSP_H_
 #define LIBEMOKIT_DSP_H_
 
-
 #include "emokit.h"
-#include "classifier.h"
 #include <fftw3.h>
 #include <math.h>
 #include <stdlib.h>
@@ -28,20 +26,20 @@ extern "C" {
 #define MAX_SENSOR_VALUE 8192
 //Number of value conserved as history for averaging
 #define HISTORY 100
-//number channel used
-#define NB_CHANNEL 5
-//number of frame between every FFT
-#define INTERVAL 32
 
+//number of frame between every FFT
+#define INTERVAL 64
+
+//number channel used
+#define NB_CHANNEL 4
 //Name the sensor we need : F3,F4,AF3,AF4
 #define F3_SENSOR 0
 #define F4_SENSOR 1
 //bipolar sensor using the F3, F4 as references
 #define F3AF3 2
 #define F4AF4 3
-#define O2_SENSOR 4
 
-//Start and end of band waves of interest
+//Start and end of band waves of interest : Alpha and Beta
 #define ALPHA_START 7
 #define ALPHA_END 12
 #define BETA_START 16
@@ -68,10 +66,9 @@ typedef struct
     //Window function coefficients
     double window[W_SIZE];
     
+    //Store the last W_SIZE raw values
     int value[NB_CHANNEL][W_SIZE];
     double mean[NB_CHANNEL];
-    
-    classifier* cf;
     
     int counter;
 } emokit_dsp;
@@ -79,15 +76,18 @@ typedef struct
 
 emokit_dsp* emokit_dsp_create();
 int emokit_dsp_free(emokit_dsp* dsp);
+
+//FFT
 void fft(emokit_dsp* dsp, int channel);
-void high_pass_filter(emokit_dsp* dsp, int channel);
 void free_fft(emokit_dsp* dsp);
+
 //windows
 void hamming_window(double* w);
 void flat_top_window(double* window);
 void no_window(double* w);
 void mean(emokit_dsp*, int);
 
+//Power computation
 double compute_power_band_wave(emokit_dsp* dsp, int channel, int start, int end);
 void compute_frame(emokit_dsp* s, struct emokit_frame f);
 void compute_power_band(emokit_dsp* dsp, int channel);

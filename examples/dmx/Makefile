@@ -30,10 +30,10 @@ cmake_force:
 SHELL = /bin/sh
 
 # The CMake executable.
-CMAKE_COMMAND = /usr/bin/cmake
+CMAKE_COMMAND = /usr/local/bin/cmake
 
 # The command to remove a file.
-RM = /usr/bin/cmake -E remove -f
+RM = /usr/local/bin/cmake -E remove -f
 
 # Escaping for special characters.
 EQUALS = =
@@ -50,7 +50,7 @@ CMAKE_BINARY_DIR = /home/gael/colorOfMind
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running interactive CMake command-line interface..."
-	/usr/bin/cmake -i .
+	/usr/local/bin/cmake -i .
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -60,19 +60,19 @@ edit_cache/fast: edit_cache
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
+	/usr/local/bin/cmake -P cmake_install.cmake
 .PHONY : install
 
 # Special rule for the target install
 install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
-	/usr/bin/cmake -P cmake_install.cmake
+	/usr/local/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
 
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
-	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local
 
 # Special rule for the target install/local
@@ -82,7 +82,7 @@ install/local/fast: install/local
 # Special rule for the target install/strip
 install/strip: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+	/usr/local/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip
 
 # Special rule for the target install/strip
@@ -101,7 +101,7 @@ list_install_components/fast: list_install_components
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	/usr/local/bin/cmake -H$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -140,42 +140,42 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
-examples/dmx/CMakeFiles/dmx.dir/rule:
-	cd /home/gael/colorOfMind && $(MAKE) -f CMakeFiles/Makefile2 examples/dmx/CMakeFiles/dmx.dir/rule
-.PHONY : examples/dmx/CMakeFiles/dmx.dir/rule
+examples/dmx/CMakeFiles/dmx_demo.dir/rule:
+	cd /home/gael/colorOfMind && $(MAKE) -f CMakeFiles/Makefile2 examples/dmx/CMakeFiles/dmx_demo.dir/rule
+.PHONY : examples/dmx/CMakeFiles/dmx_demo.dir/rule
 
 # Convenience name for target.
-dmx: examples/dmx/CMakeFiles/dmx.dir/rule
-.PHONY : dmx
+dmx_demo: examples/dmx/CMakeFiles/dmx_demo.dir/rule
+.PHONY : dmx_demo
 
 # fast build rule for target.
-dmx/fast:
-	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx.dir/build.make examples/dmx/CMakeFiles/dmx.dir/build
-.PHONY : dmx/fast
+dmx_demo/fast:
+	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx_demo.dir/build.make examples/dmx/CMakeFiles/dmx_demo.dir/build
+.PHONY : dmx_demo/fast
 
-dmx.o: dmx.c.o
-.PHONY : dmx.o
+dmx_demo.o: dmx_demo.cpp.o
+.PHONY : dmx_demo.o
 
 # target to build an object file
-dmx.c.o:
-	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx.dir/build.make examples/dmx/CMakeFiles/dmx.dir/dmx.c.o
-.PHONY : dmx.c.o
+dmx_demo.cpp.o:
+	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx_demo.dir/build.make examples/dmx/CMakeFiles/dmx_demo.dir/dmx_demo.cpp.o
+.PHONY : dmx_demo.cpp.o
 
-dmx.i: dmx.c.i
-.PHONY : dmx.i
+dmx_demo.i: dmx_demo.cpp.i
+.PHONY : dmx_demo.i
 
 # target to preprocess a source file
-dmx.c.i:
-	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx.dir/build.make examples/dmx/CMakeFiles/dmx.dir/dmx.c.i
-.PHONY : dmx.c.i
+dmx_demo.cpp.i:
+	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx_demo.dir/build.make examples/dmx/CMakeFiles/dmx_demo.dir/dmx_demo.cpp.i
+.PHONY : dmx_demo.cpp.i
 
-dmx.s: dmx.c.s
-.PHONY : dmx.s
+dmx_demo.s: dmx_demo.cpp.s
+.PHONY : dmx_demo.s
 
 # target to generate assembly for a file
-dmx.c.s:
-	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx.dir/build.make examples/dmx/CMakeFiles/dmx.dir/dmx.c.s
-.PHONY : dmx.c.s
+dmx_demo.cpp.s:
+	cd /home/gael/colorOfMind && $(MAKE) -f examples/dmx/CMakeFiles/dmx_demo.dir/build.make examples/dmx/CMakeFiles/dmx_demo.dir/dmx_demo.cpp.s
+.PHONY : dmx_demo.cpp.s
 
 # Help Target
 help:
@@ -183,16 +183,16 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... dmx"
+	@echo "... dmx_demo"
 	@echo "... edit_cache"
 	@echo "... install"
 	@echo "... install/local"
 	@echo "... install/strip"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... dmx.o"
-	@echo "... dmx.i"
-	@echo "... dmx.s"
+	@echo "... dmx_demo.o"
+	@echo "... dmx_demo.i"
+	@echo "... dmx_demo.s"
 .PHONY : help
 
 

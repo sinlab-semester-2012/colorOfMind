@@ -17,7 +17,7 @@ typedef struct{
 } plot;
 
 plot* init_plot(emokit_dsp* dsp, emotions* e);
-void plot_average_fourier();
+void plot_average_fourier(plot* p);
 void plot_arousal(plot* p);
 void plot_valence(plot* p);
 void plot_reset(plot* p);

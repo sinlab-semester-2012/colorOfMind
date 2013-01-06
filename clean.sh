@@ -13,41 +13,17 @@ rm CMakeCache.txt cmake_install.cmake install_manifest.txt Makefile
 
 # clean lib directory
 cd lib/
-rm libemokit.a liboscpack.a libemokit_dsp.a liboscpack.so libread_data.a libsave_data.a libplot.a libemotions.a libgnuplot_i.a libclassifier.a
+rm libemokit.a libemokit_dsp.a liboscpack.so libread_data.a libsave_data.a libplot.a libemotions.a libgnuplot_i.a libofxDmx.a libserial.a
 cd ../
 
 # clean examples/emokit_osc directory
-cd examples/emokit_osc/
-rm -r CMakeFiles/
-rm cmake_install.cmake Makefile
-cd ../../
-
-# clean examples/emokitd directory
-cd examples/emokitd/
+cd examples/emotiv/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
 
 # clean examples/contact directory
 cd examples/contact/
-rm -r CMakeFiles/
-rm cmake_install.cmake Makefile
-cd ../../
-
-# clean examples/main directory
-#cd examples/main/
-#rm -r CMakeFiles/
-#rm cmake_install.cmake Makefile
-#cd ../../
-
-# clean examples/saveDataToFile directory
-cd examples/saveDataToFile/
-rm -r CMakeFiles/
-rm cmake_install.cmake Makefile
-cd ../../
-
-# clean examples/readData directory
-cd examples/readData/
 rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
@@ -64,8 +40,6 @@ rm -r CMakeFiles/
 rm cmake_install.cmake Makefile
 cd ../../
 
-# clean bin/ directory
-rm -r CMakeFiles/bin/
 
 # clean bin directory
 notDone=true

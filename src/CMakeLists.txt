@@ -60,19 +60,6 @@ INSTALL(FILES
   DESTINATION include/gnuplot_i_lib
   )
 
-  # Create a library called "classifier"
-ADD_LIBRARY (classifier STATIC classifier.c) 
-target_link_libraries (classifier emokit ${LIBS}) 
-
-INSTALL (TARGETS classifier
-  LIBRARY DESTINATION lib
-  ARCHIVE DESTINATION lib
-  )
-
-INSTALL(FILES
-  ${CLASSIFIER_HEADERS}
-  DESTINATION include/classifier_lib
-  )
 
 
 # Create a library called "emokit_dsp"
@@ -126,5 +113,34 @@ INSTALL (TARGETS plot
 INSTALL(FILES
   ${PLOT_HEADERS}
   DESTINATION include/plot_lib
+  )
+
+# Create a library called "serial"
+ADD_LIBRARY (serial STATIC serial.c) 
+target_link_libraries (serial ${LIBS}) 
+
+INSTALL (TARGETS serial
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+INSTALL(FILES
+  ${serial_HEADERS}
+  DESTINATION include/serial_lib
+  )
+
+
+# Create a library called "ofxDmx"
+ADD_LIBRARY (ofxDmx STATIC ofxDmx.cpp) 
+target_link_libraries (ofxDmx serial ${LIBS}) 
+
+INSTALL (TARGETS ofxDmx
+  LIBRARY DESTINATION lib
+  ARCHIVE DESTINATION lib
+  )
+
+INSTALL(FILES
+  ${ofxDmx_HEADERS}
+  DESTINATION include/ofxDmx_lib
   )
 

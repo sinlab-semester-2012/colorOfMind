@@ -1,8 +1,0 @@
-// R
-
-
-plot(-1:1, -1:1, type="n")
-points(read1$V1, read1$V2, col="red")
-points(relax1$V1, relax1$V2, col="blue")
-points(relax2$V1, relax2$V2, col="cyan")
-points(read2$V1, read2$V2, col=

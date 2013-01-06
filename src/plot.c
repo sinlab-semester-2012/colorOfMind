@@ -14,7 +14,6 @@ plot* init_plot(emokit_dsp* dsp, emotions* e){
     return p;
 }
 
-//TODO: do the update everytime, not just when function is called 
 void plot_average_fourier(plot* p){
 	int i,j,k;
 	//for each channel
@@ -33,8 +32,6 @@ void plot_average_fourier(plot* p){
 	gnuplot_plot_x(p->h, p->average_fourier[1], 32, "F4") ;
 	gnuplot_plot_x(p->h, p->average_fourier[2], 32, "AF3") ;
 	gnuplot_plot_x(p->h, p->average_fourier[3], 32, "AF4") ;
-	gnuplot_plot_x(p->h, p->average_fourier[4], 32, "O2") ;
-
 }
 
 void plot_arousal(plot* p){
@@ -58,7 +55,6 @@ void plot_close(plot* p){
 	free(p);
 }
 
-//TODO: change so it can accept array of any size
 void shift_table(double t[HISTORY], int channels, int size){
 	int i,j=0;
 	for(j=0; j<channels; j++){

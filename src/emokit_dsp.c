@@ -116,32 +116,26 @@ void compute_frame(emokit_dsp* dsp, struct emokit_frame frame){
         //we update the NB_CHANNEL sensor - value is set between -1 and 1
         switch(c){
 			case F3_SENSOR:
-				//frame.F3 = min(dsp->cf->max_value[F3_SENSOR], frame.F3);
-				//frame.F3 = max(dsp->cf->min_value[F3_SENSOR], frame.F3);
 				dsp->value[c][W_SIZE-1] = frame.F3;
 				mean(dsp,c);
 				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE; //sin(dsp->counter/5);
 				break;
 			case F4_SENSOR:
-				//frame.F4 = min(dsp->cf->max_value[F4_SENSOR], frame.F4);
-				//frame.F4 = max(dsp->cf->min_value[F4_SENSOR], frame.F4);
 				dsp->value[c][W_SIZE-1] = frame.F4;
 				mean(dsp,c);
 				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
 			case F3AF3:
-				//frame.AF3 = min(dsp->cf->max_value[AF3_SENSOR], frame.AF3);
-				//frame.AF3 = max(dsp->cf->min_value[AF3_SENSOR], frame.AF3);
 				dsp->value[c][W_SIZE-1] = frame.F3-frame.AF3;
 				mean(dsp,c);
 				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3-frame.AF3)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
+				//(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F3)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
 			case F4AF4:
-				//frame.AF4 = min(dsp->cf->max_value[AF4_SENSOR], frame.AF4);
-				//frame.AF4 = max(dsp->cf->min_value[AF4_SENSOR], frame.AF4);
 				dsp->value[c][W_SIZE-1] = frame.F4-frame.AF4;
 				mean(dsp,c);
 				(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4-frame.AF4)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
+				//(dsp->channels[c])[W_SIZE-1][0] = ((double)((frame.F4)-dsp->mean[c]))/(double)MAX_SENSOR_VALUE;
 				break;
 			default:
 				printf("Error in compute_frame(). Shouldn't be here");

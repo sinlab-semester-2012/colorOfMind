@@ -42,8 +42,8 @@ extern "C" {
 //Start and end of band waves of interest : Alpha and Beta
 #define ALPHA_START 7
 #define ALPHA_END 12
-#define BETA_START 16
-#define BETA_END 24
+#define BETA_START 13
+#define BETA_END 28
 
 
 typedef struct

@@ -26,13 +26,12 @@ int open_data_file(data* dat){
 int check_file_opening(FILE* fichier){
 	if (fichier != NULL)
     {
-		//TODO changer selon création ou ouverture
-        printf("File read sucessfully.\n");
+        //printf("File read sucessfully.\n");
         return 0;
     }
     else
     {
-        // On affiche un message d'erreur si on veut
+        // On affiche un message d'erreur 
         printf("Error : Couldn't open the file in saveEmokitData()\n");
         return 1;
     }

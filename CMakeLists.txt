@@ -32,6 +32,7 @@ ADD_SUBDIRECTORY(examples/contact)
 ADD_SUBDIRECTORY(examples/arduino)
 ADD_SUBDIRECTORY(examples/dmx)
 ADD_SUBDIRECTORY(examples/study)
+ADD_SUBDIRECTORY(examples/readData)
 #c++
 ADD_SUBDIRECTORY(examples/emotiv)
 

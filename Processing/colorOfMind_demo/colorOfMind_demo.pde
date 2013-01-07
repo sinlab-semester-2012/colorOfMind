@@ -20,11 +20,12 @@ int DMXPRO_BAUDRATE=57600;
 OscP5 oscP5;
 
 float[] vals;
-
+int dim = 400;
+int light = 200;
 
 void setup() {
   //Graphical
-  size(400 , 200);
+  size(dim , dim);
   smooth();
   noStroke();
   //osc
@@ -44,13 +45,13 @@ void setup() {
 
 //Main function, draw frame
 void draw(){
-  background(255);
-  
-  // Draw lines connecting all points
+  background(0);
+  drawGradient(width/2, height/2);
+ // Draw lines connecting all points
   for (int i = 0; i < vals.length-1; i++) {
     stroke(0);
     strokeWeight(2);
-    line(i,vals[i]+100,i+1,vals[i+1]+100);
+    line(i,vals[i]+height/2,i+1,vals[i+1]+height/2);
   }
 
   //Update dmx channel
@@ -61,6 +62,18 @@ void draw(){
   //    rect(0,i*height/10,width,(i+10)
   
 }
+
+void drawGradient(float x, float y) {
+  int radius = dim;
+  float h = 0;
+  for (int r = radius; r > 0; --r) {
+    fill(light, 0, 0, h);
+    ellipse(x, y, r, r);
+    h = (h + 0.1);
+  }
+}
+
+
 
 //If new OSC value, update happens here
 void oscEvent(OscMessage msg){

@@ -4,8 +4,8 @@ emotions* init_emotions(emokit_dsp* dsp){
 	emotions* e;
 	e = malloc(sizeof(emotions));
 	e->dsp = dsp;
-	e->max_diff_arousal=0.40;
-	e->max_diff_valence=0.35;
+	e->max_diff_arousal=0.60;
+	e->max_diff_valence=0.55;
 	return e;
 }
 

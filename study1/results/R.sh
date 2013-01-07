@@ -1,0 +1,151 @@
+#!/usr/bin/Rscript
+
+# store the current directory
+initial.dir<-getwd()
+# change to the new directory
+#setwd("/home/gael/R/")
+# load the necessary libraries
+
+# set the output file
+sink("result.out")
+
+relax1 <- read.table("relax1.data", sep=";")
+relax2 <- read.table("relax2.data", sep=";")
+relax3 <- read.table("relax3.data", sep=";")
+meanR1 <- mean(head(relax1, 80)$V1) 
+meanR2 <- mean(head(relax2, 80)$V1) 
+meanR3 <- mean(head(relax3, 80)$V1) 
+relax1 <- tail(relax1, 30)
+relax2 <- tail(relax2, 30)
+relax3 <- tail(relax3, 30)
+print("Relax- Arousal mean")
+print(meanR1)
+print(mean(relax1$V1))
+print(meanR2)
+print(mean(relax2$V1))
+print(meanR3)
+print(mean(relax3$V1))
+
+excited1 <- read.table("excited1.data", sep=";")
+excited2 <- read.table("excited2.data", sep=";")
+excited3 <- read.table("excited3.data", sep=";")
+meanR1 <- mean(head(excited1, 80)$V1) 
+meanR2 <- mean(head(excited2, 80)$V1) 
+meanR3 <- mean(head(excited3, 80)$V1) 
+excited1 <- tail(excited1, 48)
+excited2 <- tail(excited2, 48)
+excited3 <- tail(excited3, 48)
+print("excited- Arousal mean")
+print(meanR1)
+print(mean(excited1$V1))
+print(meanR2)
+print(mean(excited2$V1))
+print(meanR3)
+print(mean(excited3$V1))
+
+happy1 <- read.table("happy1.data", sep=";")
+happy2 <- read.table("happy2.data", sep=";")
+happy3 <- read.table("happy3.data", sep=";")
+
+meanR1 <- mean(head(happy1, 80)$V1) 
+meanR2 <- mean(head(happy2, 80)$V1) 
+meanR3 <- mean(head(happy3, 80)$V1) 
+happy1 <- tail(happy1, 48)
+happy2 <- tail(happy2, 48)
+happy3 <- tail(happy3, 48)
+
+print("happy- Arousal mean")
+print(meanR1)
+print(mean(happy1$V1))
+print(meanR2)
+print(mean(happy2$V1))
+print(meanR3)
+print(mean(happy3$V1))
+
+sad1 <- read.table("sad1.data", sep=";")
+sad2 <- read.table("sad2.data", sep=";")
+sad3 <- read.table("sad3.data", sep=";")
+
+meanR1 <- mean(head(sad1, 80)$V1) 
+meanR2 <- mean(head(sad2, 80)$V1) 
+meanR3 <- mean(head(sad3, 80)$V1) 
+sad1 <- tail(sad1, 48)
+sad2 <- tail(sad2, 48)
+sad3 <- tail(sad3, 48)
+
+print("sad- Arousal mean")
+print(meanR1)
+print(mean(sad1$V1))
+print(meanR2)
+print(mean(sad2$V1))
+print(meanR3)
+print(mean(sad3$V1))
+
+png(filename="arousal.png")
+plot(-1:1,-1:1) 
+points(relax1$V1, relax1$V2, col='blue') 
+points(relax2$V1, relax2$V2, col='blue') 
+points(relax3$V1, relax3$V2, col='blue') 
+points(excited1$V1, excited1$V2, col='darkgoldenrod1') 
+points(excited2$V1, excited2$V2, col='darkgoldenrod1') 
+points(excited3$V1, excited3$V2, col='darkgoldenrod1') 
+dev.off()
+png(filename="valence.png")
+plot(-1:1,-1:1) 
+points(happy1$V1, happy1$V2, col='chartreuse4') 
+points(happy2$V1, happy2$V2, col='chartreuse4') 
+points(happy3$V1, happy3$V2, col='chartreuse4') 
+points(sad1$V1, sad1$V2, col='red') 
+points(sad2$V1, sad2$V2, col='red') 
+points(sad3$V1, sad3$V2, col='red') 
+dev.off()
+png(filename="p1valence.png")
+plot(-1:1,-1:1) 
+points(happy1$V1, happy1$V2, col='chartreuse4') 
+points(sad1$V1, sad1$V2, col='red') 
+dev.off()
+
+png(filename="p2valence.png")
+plot(-1:1,-1:1) 
+points(happy2$V1, happy2$V2, col='chartreuse4') 
+points(sad2$V1, sad2$V2, col='red') 
+dev.off()
+png(filename="p3valence.png")
+plot(-1:1,-1:1) 
+points(happy3$V1, happy3$V2, col='chartreuse4') 
+points(sad3$V1, sad3$V2, col='red') 
+dev.off()
+
+
+png(filename="p1arousal.png")
+plot(-1:1,-1:1) 
+points(relax1$V1, relax1$V2, col='blue') 
+points(excited1$V1, excited1$V2, col='darkgoldenrod1') 
+dev.off()
+
+png(filename="p2arousal.png")
+plot(-1:1,-1:1) 
+points(relax2$V1, relax2$V2, col='blue') 
+points(excited2$V1, excited2$V2, col='darkgoldenrod1') 
+dev.off()
+
+png(filename="p3arousal.png")
+plot(-1:1,-1:1) 
+points(relax3$V1, relax3$V2, col='blue') 
+points(excited3$V1, excited3$V2, col='darkgoldenrod1') 
+dev.off()
+
+# close the output file
+sink()
+# unload the libraries
+
+# Plot graph and saves them
+#par(ask=TRUE)
+#xpos<-barplot(loaeval[1,],ylim=c(-1,1),main="Lecture evaluation scores",
+#names.arg=eval.names)
+#error.bars(xpos,loaeval)
+#dev.copy2eps("loaeval.ps",width=6,height=6)
+#par(ask=FALSE)
+
+# change back to the original directory
+setwd(initial.dir)

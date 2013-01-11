@@ -5,6 +5,7 @@ The purpose of this program is to map the state of mind of the user using the Em
 The project is using the Emokit driver to get raw packets from the device and FFTW to process the signal.
 
 For more infos:  
+*The video presentation : http://vimeo.com/sinlab/colorofmind  
 *The project, please check the wiki : https://github.com/sinlab-semester-2012/colorOfMind/wiki  
 *Emotiv EPOC : http://en.wikipedia.org/wiki/Emotiv_Systems#Emotiv_EPOC  
 *SINLAB : http://www.sinlab.ch/  
